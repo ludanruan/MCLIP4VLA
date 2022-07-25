@@ -1,0 +1,16 @@
+weights/
+data/
+ckpts/
+visulaizer/
+scripts/
+utils/
+modules/__pycache__/
+modules/ViT-B-16.pt
+modules/ViT-B-32.pt
+modules/RN50x16.pt
+modules/bpe_simple_vocab_16e6.txt.gz
+main_task_visual_retrieval.py
+main_task_audio_retrieval.py
+
+
+
