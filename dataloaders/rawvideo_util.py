@@ -157,12 +157,10 @@ class RawVideoExtractorCV2():
                 assert new_w > 0 and new_h > 0
                 frame = cv2.resize(frame, (new_h, new_w))
                 if not ret: break
-                frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)# when training, needn't transfer channel
-                images.append(frame_rgb)
+                #frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)# when training, needn't transfer channel
+                images.append(frame)
 
         cap.release()
-
-        
         return images
 
     def process_raw_data(self, raw_video_data):

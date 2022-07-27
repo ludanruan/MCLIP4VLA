@@ -1,9 +1,11 @@
+__pycache__/
 weights/
 data/
 ckpts/
 visulaizer/
 scripts/
 utils/
+dataloaders/__pycache__/
 modules/__pycache__/
 modules/ViT-B-16.pt
 modules/ViT-B-32.pt
