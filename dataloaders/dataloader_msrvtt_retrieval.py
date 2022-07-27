@@ -55,7 +55,7 @@ class MSRVTT_Retrieval_DataLoader(Base_DataLoader):
         self.slice_framepos = slice_framepos
         assert self.slice_framepos in [0, 1, 2]
         self.rawVideoExtractor = RawVideoExtractor(framerate=feature_framerate, size=image_resolution)
-        self.SPECIAL_TOKEN = SPECIAL_TOKEN_CLIP
+
 
         self.audio_path = audio_path
         self.max_audio_length = max_audio_length
@@ -162,7 +162,6 @@ class MSRVTT_Retrieval_TrainDataLoader(Base_DataLoader):
         self.slice_framepos = slice_framepos
         assert self.slice_framepos in [0, 1, 2]
         self.rawVideoExtractor = RawVideoExtractor(framerate=feature_framerate, size=image_resolution)
-        self.SPECIAL_TOKEN = SPECIAL_TOKEN_CLIP 
         self.audio_path = audio_path      
         self.max_audio_length = max_audio_length
         

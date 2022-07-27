@@ -10,7 +10,6 @@ import os
 from tqdm import tqdm
 import time
 import transformers
-# from modules.tokenization import  END_TOKEN
 from modules.file_utils import PYTORCH_PRETRAINED_BERT_CACHE
 from modules.modeling import MCLIP4VLA
 
@@ -93,7 +92,6 @@ def init_model(args, device, n_gpu, local_rank):
         model_state_dict = None
 
     # Prepare model
-    cache_dir = args.cache_dir if args.cache_dir else os.path.join(str(PYTORCH_PRETRAINED_BERT_CACHE), 'distributed')
     model = MCLIP4VLA.from_pretrained(state_dict=model_state_dict, task_config=args)
 
     model.to(device)
