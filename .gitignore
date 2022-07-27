@@ -12,7 +12,7 @@ modules/ViT-B-32.pt
 modules/RN50x16.pt
 main_task_visual_retrieval.py
 main_task_audio_retrieval.py
-.gitignore
+./.gitignore
 
 
 
