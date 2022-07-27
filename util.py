@@ -236,55 +236,43 @@ class mylog(object):
         return
 
 def get_parser(description):
-    parser = argparse.ArgumentParser(description=description))
+    parser = argparse.ArgumentParser(description=description)
     parser.add_argument("--do_train", action='store_true', help="Whether to run training.")
     parser.add_argument("--do_eval", action='store_true', help="Whether to run eval on the dev set.")
-    
-    # parser.add_argument("--model_type", type=str, required=True, choices=["no_audio", "audio_feature", "clip_base", "audioclip"], \
-    #     default='no_audio', help="Whether to audio(use UniVL or UniVL_audio_encoder).")
-    parser.add_argument('--multi_sentence', type=int, default=1, help='')
+   
+    parser.add_argument('--multi_sentence', type=int, default=1, help='multi text to one video retrieval')
 
-    parser.add_argument('--train_csv', type=str, default='data/youcookii_singlef_train.csv', help='')
-    parser.add_argument('--val_csv', type=str, default='data/youcookii_singlef_val.csv', help='')
+    parser.add_argument('--train_csv', type=str, default='', help='video ids of training set')
+    parser.add_argument('--val_csv', type=str, default='', help='video ids of validation set')
 
-    parser.add_argument('--data_path', type=str, default='data/youcookii_caption_transcript.pickle',
-                        help='caption and transcription pickle file path')
-    parser.add_argument('--features_path', type=str, default='data/youcookii_videos_feature.pickle',
-                        help='feature path for 2D features')
-    parser.add_argument('--audio_path', type=str, default='../data/youcookii/audios_after_processed', help='audio path')
+    parser.add_argument('--data_path', type=str, default='data/msrvtt/annotations/multilingual_train/ref_captions_all.json',
+                        help='caption and transcription json file path')
+
+    parser.add_argument('--audio_path', type=str, default='./data/msrvtt/audios_16k', help='audio path')
     parser.add_argument('--raw_video_path', type=str, default=None, help='video path')
 
     parser.add_argument('--num_thread_reader', type=int, default=1, help='')
-    parser.add_argument('--lr_a', type=float, default=0.00001, help='initial learning rate')
-    parser.add_argument('--lr_v', type=float, default=0.00001, help='initial learning rate')
-    parser.add_argument('--lr_t', type=float, default=0.00001, help='initial learning rate')
-    parser.add_argument('--lr_c', type=float, default=0.0001, help='initial learning rate')
+    parser.add_argument('--lr_a', type=float, default=0.00001, help='learning rate of audio backbone')
+    parser.add_argument('--lr_v', type=float, default=0.00001, help='learning rate of video backbone')
+    parser.add_argument('--lr_t', type=float, default=0.00001, help='learning rate of text backbone')
+
     parser.add_argument('--epochs', type=int, default=20, help='upper epoch limit')
     parser.add_argument('--batch_size', type=int, default=256, help='batch size')
     parser.add_argument('--batch_size_val', type=int, default=3500, help='batch size eval')
     parser.add_argument('--lr_decay', type=float, default=0.9, help='Learning rate exp epoch decay')
     parser.add_argument('--n_display', type=int, default=100, help='Information display frequence')
-    parser.add_argument('--audio_rate', type=int, default=16000, help='audio feature dimension')
-    parser.add_argument('--audio_channel', type=int, default=2, help='audio feature dimension')
+    parser.add_argument('--audio_rate', type=int, default=16000, help='audio fps')
+    parser.add_argument('--audio_channel', type=int, default=2, help='audio channels(1 or 2)')
     parser.add_argument('--audio_tokenlen', type=float, default=1, help='audio feature token length')
     parser.add_argument('--seed', type=int, default=42, help='random seed')
-    parser.add_argument('--max_words', type=int, default=20, help='')
-    parser.add_argument('--max_frames', type=int, default=100, help='')
-    parser.add_argument('--max_audio_length', type=int, default=100, help='')
+    parser.add_argument('--max_words', type=int, default=32, help='')
+    parser.add_argument('--max_frames', type=int, default=12, help='')
+    parser.add_argument('--max_audio_length', type=int, default=12, help='')
     parser.add_argument('--feature_framerate', type=int, default=1, help='')
-
-    
-    parser.add_argument('--min_time', type=float, default=10.0, help='Gather small clips')
-    parser.add_argument('--min_words', type=int, default=5, help='Gather small clips')
-    parser.add_argument('--margin', type=float, default=0.1, help='margin for loss')
-    parser.add_argument('--hard_negative_rate', type=float, default=0.5, help='rate of intra negative sample')
-    parser.add_argument('--negative_weighting', type=int, default=1, help='Weight the loss for intra negative')
-    parser.add_argument('--n_pair', type=int, default=1, help='Num of pair to output from data loader')
 
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model predictions and checkpoints will be written.")
     parser.add_argument("--init_model", default=None, type=str, required=False, help="Initial model.")
-    parser.add_argument("--multilingual_init", default=None, type=str, required=False, help="Initial model.")
     parser.add_argument("--do_lower_case", action='store_true', help="Set this flag if you are using an uncased model.")
     parser.add_argument("--warmup_proportion", default=0.1, type=float,
                         help="Proportion of training to perform linear learning rate warmup for. E.g., 0.1 = 10%% of training.")
@@ -292,8 +280,6 @@ def get_parser(description):
                         help="Number of updates steps to accumulate before performing a backward/update pass.")
     parser.add_argument('--n_gpu', type=int, default=1, help="Changed in the execute process.")
 
-    parser.add_argument("--cache_dir", default="", type=str,
-                        help="Where do you want to store the pre-trained models downloaded from s3")
 
     parser.add_argument('--fp16', action='store_true',
                         help="Whether to use 16-bit (mixed) precision (through NVIDIA apex) instead of 32-bit")
@@ -302,26 +288,11 @@ def get_parser(description):
                              "See details at https://nvidia.github.io/apex/amp.html")
 
     parser.add_argument("--task_type", default="caption", type=str, help="Point the task `caption` to finetune.")
-    parser.add_argument("--datatype", default="youcook", type=str, help="Point the dataset `youcook` to finetune.")
     parser.add_argument('--loss_func', type=str, default='nce')
     parser.add_argument("--world_size", default=0, type=int, help="distribted training")
     parser.add_argument("--local_rank", default=0, type=int, help="distribted training")
-    parser.add_argument('--use_mil', action='store_true', help="Whether use MIL as Miech et. al. (2020).")
-    parser.add_argument('--sampled_use_mil', action='store_true', help="Whether use MIL, has a high priority than use_mil.")
-    parser.add_argument('--extend', type=int, default=3, help="extend video context for caption")
     parser.add_argument('--expand_msrvtt_sentences', action='store_true', help="")
-    parser.add_argument('--filter_video_id', action='store_true', help="filter data without audio or video")
-    parser.add_argument("--refine_nce", action='store_true',  help="refine nce against negative")
-    parser.add_argument('--text_num_hidden_layers', type=int, default=12, help="Layer NO. of text.")
-    parser.add_argument('--visual_num_hidden_layers', type=int, default=12, help="Layer NO. of visual.")
-    parser.add_argument('--audio_num_hidden_layers', type=int, default=12, help="Layer NO. of visual.")
-    parser.add_argument('--cross_num_hidden_layers', type=int, default=4, help="Layer NO. of cross.")
-   
     parser.add_argument('--type_vocab_size', type=int, default=3, help="")
-
-
-    parser.add_argument('--stage_two', action='store_true', help="Whether training with decoder.")
-    parser.add_argument('--pretrain_enhance_vmodal', action='store_true', help="Enhance visual and other modalities when pretraining.")
 
     parser.add_argument("--load_checkpoint", action="store_true")
     parser.add_argument("--checkpoint_model", default="pytorch_model.bin.checkpoint", type=str, required=False,
@@ -340,17 +311,6 @@ def get_parser(description):
     parser.add_argument("--freeze", default=None, type=str, help="freeze model with key word")
     #<==== parameters for MultilingualClip
 
-    # parameters for AudioClip ====>
-    parser.add_argument("--with_bg_token", action="store_true")
-    parser.add_argument('--train_with_audio', action='store_true', help="train  with audio together")
-    parser.add_argument("--with_control_token", type=float, default=-1,  help="0:choose bg class token; \
-    1:choose human voice token; 2:both tokens fror pre-training; -1: no control token")
-    # parameters for AudioClip ====>
-
-    # parameters for visdom ====>
-    parser.add_argument("--do_visualize",action='store_true', help="Whether to visualize on html" )
-    parser.add_argument("--web_dirs",type=str, default="./visualizer", help="Whether to visualize on html" )
-    #<==== parameters for visdom
 
     args = parser.parse_args()
     return args

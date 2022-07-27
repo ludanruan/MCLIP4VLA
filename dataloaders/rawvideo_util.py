@@ -69,7 +69,7 @@ class RawVideoExtractorCV2():
                 ret, frame = cap.read()
                 if not ret: break
                 frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                images.append(preprocess(Image.fromarray(frame_rgb).convert("RGB")))
+                images.append(preprocess(Image.fromarray(frame_rgb)))
 
         cap.release()
 
