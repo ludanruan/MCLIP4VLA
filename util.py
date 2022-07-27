@@ -244,12 +244,13 @@ def get_parser(description):
 
     parser.add_argument('--train_csv', type=str, default='', help='video ids of training set')
     parser.add_argument('--val_csv', type=str, default='', help='video ids of validation set')
+    
 
     parser.add_argument('--data_path', type=str, default='data/msrvtt/annotations/multilingual_train/ref_captions_all.json',
                         help='caption and transcription json file path')
-
+    parser.add_argument('--frame_path', type=str, default='./data/msrvtt/raw_frames', help='frame path')
     parser.add_argument('--audio_path', type=str, default='./data/msrvtt/audios_16k', help='audio path')
-    parser.add_argument('--raw_video_path', type=str, default=None, help='video path')
+    parser.add_argument('--raw_video_path', type=str, default=None, help='video path for visualization')
 
     parser.add_argument('--num_thread_reader', type=int, default=1, help='')
     parser.add_argument('--lr_a', type=float, default=0.00001, help='learning rate of audio backbone')
@@ -269,6 +270,7 @@ def get_parser(description):
     parser.add_argument('--max_frames', type=int, default=12, help='')
     parser.add_argument('--max_audio_length', type=int, default=12, help='')
     parser.add_argument('--feature_framerate', type=int, default=1, help='')
+    parser.add_argument('--with_control_token', type=float, default=0.5, help='')
 
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model predictions and checkpoints will be written.")

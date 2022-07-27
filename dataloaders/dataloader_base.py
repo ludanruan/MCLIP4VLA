@@ -31,10 +31,10 @@ class Base_DataLoader(Dataset):
         # self.audio_fns = os.listdir(self.audio_path)
         for idx,video_id in enumerate(video_ids):
             
-            if 'raw_frames' in self.features_path:
-                video_path = os.path.join(self.features_path, video_id)
+            if 'raw_frames' in self.frame_path:
+                video_path = os.path.join(self.frame_path, video_id)
             else:
-                video_path = os.path.join(self.features_path, "{}.mp4".format(video_id))
+                video_path = os.path.join(self.frame_path, "{}.mp4".format(video_id))
 
             if os.path.exists(video_path) is False:
                 continue
@@ -61,11 +61,11 @@ class Base_DataLoader(Dataset):
             for i in range(len(s)):
                 start = None if s[i] is None else math.floor(s[i])
                 end = None if e[i] is None else math.ceil(e[i])
-                if 'raw_frames' in self.features_path:
-                    frame_dir = os.path.join(self.features_path, video_id)
+                if 'raw_frames' in self.frame_path:
+                    frame_dir = os.path.join(self.frame_path, video_id)
                     raw_video_data = self.rawVideoExtractor.get_video_frames(frame_dir, start_time=start, end_time=end, max_frames=self.max_frames, frame_pos=self.slice_framepos)
                 else:
-                    video_path = os.path.join(self.features_path, "{}.mp4".format(video_id))
+                    video_path = os.path.join(self.frame_path, "{}.mp4".format(video_id))
                     raw_video_data = self.rawVideoExtractor.get_video_data(video_path, start_time=start, end_time=end)
                 
                 if len(raw_video_data.shape) > 3:

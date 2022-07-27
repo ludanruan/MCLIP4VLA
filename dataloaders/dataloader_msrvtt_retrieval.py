@@ -20,7 +20,7 @@ class MSRVTT_Retrieval_DataLoader(Base_DataLoader):
     def __init__(
             self,
             json_path,
-            features_path,
+            frame_path,
             tokenizer,
             max_words=30,
             feature_framerate=1.0,
@@ -47,7 +47,7 @@ class MSRVTT_Retrieval_DataLoader(Base_DataLoader):
         self.max_words = max_words
         self.max_frames = max_frames
         self.tokenizer = tokenizer
-        self.features_path = features_path
+        self.frame_path = frame_path
         # 0: ordinary order; 1: reverse order; 2: random order.
         self.frame_order = frame_order
         assert self.frame_order in [0, 1, 2]
@@ -67,8 +67,8 @@ class MSRVTT_Retrieval_DataLoader(Base_DataLoader):
         self.video_path = video_path
         self.filter_video_id = filter_video_id
         self.feature_dict = {}
-        if os.path.isfile(self.features_path):
-            self.feature_dict = pickle.load(open(self.features_path, 'rb'))
+        if os.path.isfile(self.frame_path):
+            self.feature_dict = pickle.load(open(self.frame_path, 'rb'))
             self.feature_size = self.feature_dict[self.csv['video_id'].values[0]].shape[-1]
         val_video_ids = [i[:-4] for i in self.data.keys()]
         val_video_ids = self.video_ids_filter(val_video_ids)
@@ -122,7 +122,7 @@ class MSRVTT_Retrieval_TrainDataLoader(Base_DataLoader):
             self,
             csv_path,
             json_path,
-            features_path,
+            frame_path,
             tokenizer,
             max_words=30,
             feature_framerate=1.0,
@@ -152,7 +152,7 @@ class MSRVTT_Retrieval_TrainDataLoader(Base_DataLoader):
         self.max_words = max_words
         self.max_frames = max_frames
         self.tokenizer = tokenizer
-        self.features_path = features_path
+        self.frame_path = frame_path
 
 
         # 0: ordinary order; 1: reverse order; 2: random order.

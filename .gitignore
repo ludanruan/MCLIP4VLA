@@ -1,6 +1,6 @@
 __pycache__/
 weights/
-data/
+data/msrvtt
 ckpts/
 visulaizer/
 scripts/

@@ -24,7 +24,7 @@ from util import mylog
 from modules.until_module import PreTrainedModel,  CrossEn, AllGather, Loss_recoder
 from modules.module_audio import AudioCLIP
 from modules.module_clip import MultiLingualCLIP, convert_weights
-from modules.tokenization import END_TOKEN
+
 
 
 
@@ -400,13 +400,13 @@ class MCLIP4VLA(MCLIP4VLAPreTrainedModel):
             if input_ids is not None:
                 input_ids = input_ids.view(-1, input_ids.shape[-1])
     
-        if sequence_output.dim() == 3 and  sequence_output.shape[1]>1:
-            sequence_output = sequence_output[torch.arange(sequence_output.shape[0]), (input_ids==END_TOKEN).nonzero(as_tuple=True)[1]]
-            sequence_output = sequence_output / sequence_output.norm(dim=-1, keepdim=True)
-        else:
-            if sequence_output.dim() == 3 and  sequence_output.shape[1]==1:
-                sequence_output = sequence_output.squeeze(1)
-            sequence_output = sequence_output / sequence_output.norm(dim=-1, keepdim=True)
+        # if sequence_output.dim() == 3 and  sequence_output.shape[1]>1:
+        #     sequence_output = sequence_output[torch.arange(sequence_output.shape[0]), (input_ids==END_TOKEN).nonzero(as_tuple=True)[1]]
+        #     sequence_output = sequence_output / sequence_output.norm(dim=-1, keepdim=True)
+        # else:
+        #     if sequence_output.dim() == 3 and  sequence_output.shape[1]==1:
+        #         sequence_output = sequence_output.squeeze(1)
+        sequence_output = sequence_output / sequence_output.norm(dim=-1, keepdim=True)
         
         visual_output = visual_output / (visual_output.norm(dim=-1, keepdim=True)+1e-10)
         visual_output = self._mean_pooling_for_single_modal(visual_output, video_mask, 'video')
@@ -449,13 +449,13 @@ class MCLIP4VLA(MCLIP4VLAPreTrainedModel):
             if input_ids is not None:
                 input_ids = input_ids.view(-1, input_ids.shape[-1])
 
-        if modal1_output.dim() == 3 and  modal1_output.shape[1]>1:
-            modal1_output = modal1_output[torch.arange(modal1_output.shape[0]), (input_ids==END_TOKEN).nonzero(as_tuple=True)[1]] 
-            modal1_output = modal1_output / (modal1_output.norm(dim=-1, keepdim=True) + 1e-10)
-        else:
-            if modal1_output.dim() == 3 and  modal1_output.shape[1]==1:
-                modal1_output = modal1_output.squeeze(1)
-            modal1_output = modal1_output / (modal1_output.norm(dim=-1, keepdim=True) + 1e-10)
+        # if modal1_output.dim() == 3 and  modal1_output.shape[1]>1:
+        #     modal1_output = modal1_output[torch.arange(modal1_output.shape[0]), (input_ids==END_TOKEN).nonzero(as_tuple=True)[1]] 
+        #     modal1_output = modal1_output / (modal1_output.norm(dim=-1, keepdim=True) + 1e-10)
+        # else:
+        #     if modal1_output.dim() == 3 and  modal1_output.shape[1]==1:
+        #         modal1_output = modal1_output.squeeze(1)
+        modal1_output = modal1_output / (modal1_output.norm(dim=-1, keepdim=True) + 1e-10)
 
         modal2_output = modal2_output / (modal2_output.norm(dim=-1, keepdim=True) + 1e-10)
         modal2_output = self._mean_pooling_for_single_modal(modal2_output, modal2_mask, modal2)

@@ -11,7 +11,7 @@ def dataloader_msrvtt_retrieval_train(args,tokenizer):
     msrvtt_dataset = MSRVTT_Retrieval_TrainDataLoader(
         csv_path=args.train_csv,
         json_path=args.data_path,
-        features_path=args.features_path,
+        frame_path=args.frame_path,
         tokenizer=tokenizer,
         max_words=args.max_words,
         feature_framerate=args.feature_framerate,
@@ -45,7 +45,7 @@ def dataloader_msrvtt_retrieval_train(args,tokenizer):
 def dataloader_msrvtt_retrieval_test(args, tokenizer):
     msrvtt_testset = MSRVTT_Retrieval_DataLoader(
         json_path=args.val_csv,
-        features_path=args.features_path,
+        frame_path=args.frame_path,
         tokenizer=tokenizer,
         max_words=args.max_words,
         feature_framerate=args.feature_framerate,
