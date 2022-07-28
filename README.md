@@ -11,7 +11,7 @@ pip install h5py librosa dominate
 ```
 ## Preparation
 #### Dataset
-Download MSR-VTT from [Baiduyun]()
+Download MSR-VTT from [Baiduyun](https://pan.baidu.com/s/11VWH8VqczIj42LXJ3Y-wkA?pwd=qhq7) (passward:qhq7)
 unzip it with```tar -zxvf msrvtt.tar.gz``` and place it in `./data`.
 process the dataset with the following command:
 ```
@@ -21,12 +21,14 @@ bash audio_softlink.sh
 ``` 
 
 #### Pre-trained models
-Download the pre-trained model from [Baiduyun](https://pan.baidu.com/s/1mISSzAfbCUvLIQHqxH0K9A?pwd=tp1k) passward:tp1k
-place it in ./weights
+Download the pre-trained model from [Baiduyun](https://pan.baidu.com/s/1mISSzAfbCUvLIQHqxH0K9A?pwd=tp1k) (passward:tp1k)
+
+Place it in `./weights`
 
 #### Multilingual tokenizer
-Download the multilingual tokenizer setting from  [Baiduyun](https://pan.baidu.com/s/1r4yfR96IGSjYh7ZDx8-N_g?pwd=vth7) passward:vth7
-unzip it with```tar -zxvf M-BERT-Based-69-ViT-B.tar.gz``` and place it in `./weights`.
+Download the multilingual tokenizer setting from  [Baiduyun](https://pan.baidu.com/s/1r4yfR96IGSjYh7ZDx8-N_g?pwd=vth7) (passward:vth7)
+
+Unzip it with `tar -zxvf M-BERT-Based-69-ViT-B.tar.gz` and place it in `./weights`.
 
 ## Finetuning 
 Replace the retrieval results on MSR-VTT-7k with
