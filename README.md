@@ -1,6 +1,6 @@
 # MCLIP4VLA
 Mluti-modal multi-lingual Pre-trained model based on CLIP
-Thispre-trained model supports 
+This pre-trained model supports 
 > English (en) \
 > German (de) \
 > French (fr) \

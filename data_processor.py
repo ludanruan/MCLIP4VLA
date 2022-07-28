@@ -120,24 +120,24 @@ def load_video_into_frames(video_dir, frame_dir, num_jobs=1):
     print("extracting frames from {} to {} has finished".format(video_dir, frame_dir))       
     return
 
-def build_audio_bash(bash_in, bash_out):
-    bash_commands=[]
-    with open(bash_in, 'r') as f_in:
-        for line in f_in.readlines():
-            line = line.strip()
-            if line.endswith('wav') == False: continue
-            subtokens = line.split(' ')
+# def build_audio_bash(bash_in, bash_out):
+#     bash_commands=[]
+#     with open(bash_in, 'r') as f_in:
+#         for line in f_in.readlines():
+#             line = line.strip()
+#             if line.endswith('wav') == False: continue
+#             subtokens = line.split(' ')
             
-            wav_to, wav_from = subtokens[14], subtokens[16]
-            wav_from = wav_from.split('/')[-1]
-            bash_command=' '.join(["ln", "-s",  wav_from,  wav_to])
-            bash_commands.append(bash_command)
+#             wav_to, wav_from = subtokens[14], subtokens[16]
+#             wav_from = wav_from.split('/')[-1]
+#             bash_command=' '.join(["ln", "-s",  wav_from,  wav_to])
+#             bash_commands.append(bash_command)
 
-    with open(bash_out, 'w') as f_out:
-        for bash_command in bash_commands:
-            f_out.write(bash_command+"\n")
+#     with open(bash_out, 'w') as f_out:
+#         for bash_command in bash_commands:
+#             f_out.write(bash_command+"\n")
 
-    print(f"output {bash_out} successfully and plz use it to replace the blank audios")
+#     print(f"output {bash_out} successfully and plz use it to replace the blank audios")
 
 if __name__ == '__main__':
     description = 'Processors for msrvtt '
@@ -149,18 +149,18 @@ if __name__ == '__main__':
     p.add_argument('--build_audio_bash', action='store_true', 
                     help='build audio soft links')
 
-    p.add_argument('--video_dir', type=str, default="../data/msrvtt/videos",
+    p.add_argument('--video_dir', type=str, default="data/msrvtt/videos",
                    help=('video dir'))
     
-    p.add_argument('--audio_dir', type=str, default="../data/msrvtt/audios_16k",
+    p.add_argument('--audio_dir', type=str, default="data/msrvtt/audios_16k",
                    help='Output directory where audios to be saved')
-    p.add_argument('--frame_dir', type=str, default="../data/msrvtt/raw_frames",
+    p.add_argument('--frame_dir', type=str, default="data/msrvtt/raw_frames",
                    help='Output directory where raw frames to be saved')
 
-    p.add_argument('--bash_in', type=str, default="../data/msrvtt_temp/softlink.sh",
-                   help='Output directory where audios to be saved')
-    p.add_argument('--bash_out', type=str, default="../data/msrvtt/softlink.sh",
-                   help='Output directory where raw frames to be saved')    
+    # p.add_argument('--bash_in', type=str, default="../data/msrvtt_temp/softlink.sh",
+    #                help='Output directory where audios to be saved')
+    # p.add_argument('--bash_out', type=str, default="data/msrvtt/softlink.sh",
+    #                help='Output directory where raw frames to be saved')    
 
     p.add_argument('-n', '--num_jobs', type=int, default=36)
     args= p.parse_args()
@@ -174,7 +174,7 @@ if __name__ == '__main__':
         assert args.video_dir is not None and args.frame_dir is not None and args.num_jobs is not None
         load_video_into_frames(args.video_dir, args.frame_dir, args.num_jobs)
         
-    if args.build_audio_bash:
-        build_audio_bash(args.bash_in, args.bash_out)
+    # if args.build_audio_bash:
+    #     build_audio_bash(args.bash_in, args.bash_out)
     
     
