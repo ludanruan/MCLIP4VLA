@@ -24,8 +24,7 @@ def dataloader_msrvtt_retrieval_train(args,tokenizer):
         max_audio_length = args.max_audio_length,
         audio_rate = args.audio_rate,
         audio_channel = args.audio_channel,
-        audio_tokenlen = args.audio_tokenlen,  
-        filter_video_id = args.filter_video_id    
+        audio_tokenlen = args.audio_tokenlen  
         
     )
 
@@ -59,8 +58,7 @@ def dataloader_msrvtt_retrieval_test(args, tokenizer):
         audio_rate = args.audio_rate,
         audio_channel = args.audio_channel,
         audio_tokenlen = args.audio_tokenlen,
-        video_path = args.raw_video_path,
-        filter_video_id = args.filter_video_id
+        video_path = args.raw_video_path
     )
     meta = msrvtt_testset.get_meta()
     dataloader_msrvtt = DataLoader(

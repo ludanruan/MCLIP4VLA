@@ -230,8 +230,7 @@ class MCLIP4VLA(MCLIP4VLAPreTrainedModel):
         self.audio = AudioCLIP(embed_dim=embed_dim,
         image_resolution = image_resolution, vision_layers = vision_layers, \
             vision_width = vision_width, vision_patch_size = vision_patch_size, \
-                with_bg_token=self.task_config.with_bg_token, with_control_token=self.task_config.with_control_token, \
-                is_pretrain = self.task_config.do_pretrain).float()
+                with_control_token=self.task_config.with_control_token).float()
         if self.task_config.fp16 == False:
             convert_weights(self.audio)
         # <=== End of Audio Encoder

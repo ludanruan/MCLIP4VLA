@@ -1,5 +1,5 @@
 # MCLIP4VLA
-Mluti-modal multi-lingual Pre-trained model
+Mluti-modal multi-lingual Pre-trained model based on CLIP
 
 ## Setup
 ```
@@ -15,9 +15,11 @@ Download MSR-VTT from [Baiduyun](https://pan.baidu.com/s/11VWH8VqczIj42LXJ3Y-wkA
 unzip it with```tar -zxvf msrvtt.tar.gz``` and place it in `./data`.
 process the dataset with the following command:
 ```
-python data_processor --extract_audios --load_video_into_frames
+python data_processor.py --extract_audios --load_video_into_frames
 cd data/msrvtt
-bash audio_softlink.sh
+mv softlink.sh audios_16k/
+cd audios_16k
+bash softlink.sh
 ``` 
 
 #### Pre-trained models

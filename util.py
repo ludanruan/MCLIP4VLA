@@ -300,6 +300,11 @@ def get_parser(description):
     parser.add_argument("--checkpoint_model", default="pytorch_model.bin.checkpoint", type=str, required=False,
                         help="Save the last model as a checkpoint.")
     
+    # parameters for visdom ====>
+    parser.add_argument("--do_visualize",action='store_true', help="Whether to visualize on html" )
+    parser.add_argument("--web_dirs",type=str, default="./visualizer", help="Whether to visualize on html" )
+    #<==== parameters for visdom
+
     
     # parameters for MultilingualClip ====>
     parser.add_argument('--train_frame_order', type=int, default=0, choices=[0, 1, 2],

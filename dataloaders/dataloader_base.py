@@ -39,7 +39,7 @@ class Base_DataLoader(Dataset):
             if os.path.exists(video_path) is False:
                 continue
             audio_path = os.path.join(self.audio_path, video_id+'.wav')
-            if self.filter_video_id == True and os.path.exists(audio_path) is False:
+            if os.path.exists(audio_path) is False:
                 continue
             video_ids_new.append(video_id)
         # print('Video not exists: {}'.format(vid_not_exist))

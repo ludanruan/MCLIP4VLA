@@ -272,7 +272,7 @@ class Transformer(nn.Module):
 
 class VisualTransformer(nn.Module):
     def __init__(self, input_resolution: int, patch_size: int, width: int, layers: int, heads: int, output_dim: int,
-                 with_bg_token: bool=False, with_control_token: float=-1, is_pretrain=False):
+            with_control_token: float=-1):
         super().__init__()
         self.input_resolution = input_resolution
         self.output_dim = output_dim
@@ -280,7 +280,7 @@ class VisualTransformer(nn.Module):
         self.conv1 = nn.Conv2d(in_channels=3, out_channels=width, kernel_size=patch_size, stride=patch_size, bias=False)
 
         scale = width ** -0.5
-        self.with_bg_token = with_bg_token
+    
         self.with_control_token = with_control_token
         self.class_embedding = nn.Parameter(scale * torch.randn(width))
         if self.with_control_token > -1 :
@@ -343,7 +343,6 @@ class AudioCLIP(nn.Module):
                  vision_layers: Union[Tuple[int, int, int, int], int],
                  vision_width: int,
                  vision_patch_size: int,   
-                 with_bg_token: bool =False,
                  with_control_token: int=-1,
                  is_pretrain: bool = False            
                  ):
@@ -367,9 +366,7 @@ class AudioCLIP(nn.Module):
                 layers=vision_layers,
                 heads=vision_heads,
                 output_dim=embed_dim,
-                with_bg_token=with_bg_token,
-                with_control_token=with_control_token,
-                is_pretrain=is_pretrain
+                with_control_token=with_control_token
             )
 
         self.initialize_parameters()

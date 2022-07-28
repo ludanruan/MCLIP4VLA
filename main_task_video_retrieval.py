@@ -33,10 +33,9 @@ def get_args(description='UniVL on Retrieval Task'):
             args.gradient_accumulation_steps))
     if not args.do_train and not args.do_eval:
         raise ValueError("At least one of `do_train` or `do_eval` must be True.")
-    # if args.datatype == 'audiocaps': 
-    #     assert args.multi_sentence == 5, 'input in right multi_sentence for audiocaps' 
-    args.batch_size = int(args.batch_size / args.gradient_accumulation_steps)
 
+    args.batch_size = int(args.batch_size / args.gradient_accumulation_steps)
+    args.datatype='msrvtt'
     return args
 
 def set_seed_logger(args):

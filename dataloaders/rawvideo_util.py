@@ -106,10 +106,13 @@ class RawVideoExtractorCV2():
 
         for i in times:
             frame_path = os.path.join(frame_dir, str(i)+'.jpg')
-            frame_rgb = cv2.imread(frame_path)
-            if frame_rgb is None:
+            frame = cv2.imread(frame_path)
+            
+            if frame is None:
                 continue
+            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)    
             images.append(self.transform(Image.fromarray(frame_rgb).convert("RGB")))
+
         
         if len(images) > 0:
             video_data = th.tensor(np.stack(images))

@@ -54,7 +54,7 @@ def extract_audios_wrapper(audio_in_dir, audio_in,  output_dir):
  
     return status
 
-def extract_audios(input_dir, output_dir, output_json=None, num_jobs=20):
+def extract_audios(input_dir, output_dir, num_jobs=20):
     '''transfer video to audio from input dir to output_dir with num_jobs threads,
        following the file tree orgnization of input_dir '''
     if not os.path.exists(output_dir):
@@ -72,10 +72,6 @@ def extract_audios(input_dir, output_dir, output_json=None, num_jobs=20):
         status_lst = Parallel(n_jobs=num_jobs)(delayed(extract_audios_wrapper)(
            input_dir, row, output_dir) for row in tqdm(audio_list))
 
-    # Save transfer report.
-    if output_json != None:
-        with open(output_json, 'w') as fobj:
-            fobj.write(json.dumps(status_lst))
 
 def load_video_into_frames_wrapper(video_path, frame_root, feature_framerate = 1, image_resolution=224):
     
@@ -133,9 +129,10 @@ def build_audio_bash(bash_in, bash_out):
             subtokens = line.split(' ')
             
             wav_to, wav_from = subtokens[14], subtokens[16]
-            wav_from = wav_to.split('/')[-1]
-            bash_command=' '.join(["ln", "-s", 'audios_16k/' + wav_from, 'audios_16k/' + wav_to])
+            wav_from = wav_from.split('/')[-1]
+            bash_command=' '.join(["ln", "-s",  wav_from,  wav_to])
             bash_commands.append(bash_command)
+
     with open(bash_out, 'w') as f_out:
         for bash_command in bash_commands:
             f_out.write(bash_command+"\n")
@@ -152,36 +149,29 @@ if __name__ == '__main__':
     p.add_argument('--build_audio_bash', action='store_true', 
                     help='build audio soft links')
 
-    p.add_argument('--video_dir', type=str, default="./data/msrvtt/videos",
+    p.add_argument('--video_dir', type=str, default="../data/msrvtt/videos",
                    help=('video dir'))
     
-    p.add_argument('--audio_dir', type=str, default="./data/msrvtt/audios_16k",
+    p.add_argument('--audio_dir', type=str, default="../data/msrvtt/audios_16k",
                    help='Output directory where audios to be saved')
-    p.add_argument('--frame_dir', type=str, default="./data/msrvtt/raw_frames",
+    p.add_argument('--frame_dir', type=str, default="../data/msrvtt/raw_frames",
                    help='Output directory where raw frames to be saved')
 
-    p.add_argument('--bash_in', type=str, default="../data/msrvtt/audios_complement_16k/softlink.sh",
+    p.add_argument('--bash_in', type=str, default="../data/msrvtt_temp/softlink.sh",
                    help='Output directory where audios to be saved')
-    p.add_argument('--bash_out', type=str, default="../data/msrvtt_zip/softlink.sh",
+    p.add_argument('--bash_out', type=str, default="../data/msrvtt/softlink.sh",
                    help='Output directory where raw frames to be saved')    
 
-    p.add_argument('-n', '--num_jobs', type=int, default=100)
+    p.add_argument('-n', '--num_jobs', type=int, default=36)
     args= p.parse_args()
 
 
     if args.extract_audios:
-
-
         assert args.audio_dir is not None  and args.video_dir is not None 
-        # if os.path.exists(args.audio_dir):
-        #     os.system(' '.join(['rm', '-r', args.audio_dir]))
-        #     print('delete old file...')
         extract_audios(args.video_dir, args.audio_dir,  args.num_jobs)
     
     if args.load_video_into_frames:
-       
         assert args.video_dir is not None and args.frame_dir is not None and args.num_jobs is not None
-        
         load_video_into_frames(args.video_dir, args.frame_dir, args.num_jobs)
         
     if args.build_audio_bash:

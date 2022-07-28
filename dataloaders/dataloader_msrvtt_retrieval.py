@@ -38,7 +38,6 @@ class MSRVTT_Retrieval_DataLoader(Base_DataLoader):
             audio_overlap=0,
              
             video_path = None,
-            filter_video_id = False
     ):
         super(MSRVTT_Retrieval_DataLoader, self).__init__()
         self.data = json.load(open(json_path, 'r'))
@@ -65,7 +64,7 @@ class MSRVTT_Retrieval_DataLoader(Base_DataLoader):
         self.audio_rate = audio_rate
         self.audio_resolution = audio_resolution
         self.video_path = video_path
-        self.filter_video_id = filter_video_id
+
         self.feature_dict = {}
         if os.path.isfile(self.frame_path):
             self.feature_dict = pickle.load(open(self.frame_path, 'rb'))
@@ -141,7 +140,6 @@ class MSRVTT_Retrieval_TrainDataLoader(Base_DataLoader):
             audio_rate=16000,
             audio_channel=2,
 
-            filter_video_id=False    
     ):
         super(MSRVTT_Retrieval_TrainDataLoader, self).__init__()
         self.csv = pd.read_csv(csv_path)
@@ -173,7 +171,6 @@ class MSRVTT_Retrieval_TrainDataLoader(Base_DataLoader):
        
         self.unfold_sentences = unfold_sentences
         self.sample_len = 0
-        self.filter_video_id = filter_video_id
         self.feature_dict = {}
       
         
