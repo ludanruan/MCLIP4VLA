@@ -28,9 +28,11 @@ main_task_video_retrieval.py --do_train  --num_thread_reader=4  \
 
 
 
+for i in '0' '1' '2' '3' '4'
+do
 for language in 'en' 'zh' 'cs' 'de' 'es' 'fr' 'ru' 'sw' 'vi'
 do
-INIT_MODEL="ckpts/ckpt_msrvtt_video_retrieval/pytorch_model.bin.4"
+INIT_MODEL="ckpts/ckpt_msrvtt_video_retrieval/pytorch_model.bin.${i}"
 VAL_CSV="data/msrvtt/annotations/multilingual_test/test_${language}.json"
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --master_port=25203 \
 main_task_video_retrieval.py --do_eval  --num_thread_reader=4  \
@@ -48,6 +50,7 @@ main_task_video_retrieval.py --do_eval  --num_thread_reader=4  \
 --feature_framerate 1   \
 --freeze_layer_num -1  --slice_framepos 2  \
 --loss_func ta_nce \
---max_audio_length=6   \
-done
+--max_audio_length=6   
 
+done
+done

@@ -46,12 +46,12 @@ To evaluate our model, run
 ```
 bash msrvtt_finetune.sh
 ```
-the results should be 
+<!-- the results should be 
 
 | Method | en   | zh   | cs   | de   | es   | fr   | ru   | sw   | vi   | avg  |
 | ------ | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | Ours   | 35.8 | 30.4 | 32.7 | 33.7 | 33.5 | 33.8 | 32.0 | 22.6 | 15.9 | 30.0 |
-
+ -->
 
 
 
