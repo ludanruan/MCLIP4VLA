@@ -1,6 +1,15 @@
 # MCLIP4VLA
 Mluti-modal multi-lingual Pre-trained model based on CLIP
-
+Thispre-trained model supports 
+> English (en) \
+> German (de) \
+> French (fr) \
+> Czech (cs) \
+> Chinese (zh) \
+> Russian (ru) \
+> Vietnamese (vi) \
+> Swahili (sw) \
+> Spanish (es)
 ## Setup
 ```
 conda create -n mclip4vla python=3.7
@@ -33,11 +42,16 @@ Download the multilingual tokenizer setting from  [Baiduyun](https://pan.baidu.c
 Unzip it with `tar -zxvf M-BERT-Based-69-ViT-B.tar.gz` and place it in `./weights`.
 
 ## Finetuning 
-Replace the retrieval results on MSR-VTT-7k with
+To evaluate our model, run
 ```
 bash msrvtt_finetune.sh
 ```
-## License
+the results should be 
+
+| Method | en   | zh   | cs   | de   | es   | fr   | ru   | sw   | vi   | avg  |
+| ------ | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| Ours   | 35.8 | 30.4 | 32.7 | 33.7 | 33.5 | 33.8 | 32.0 | 22.6 | 15.9 | 30.0 |
+
 
 
 

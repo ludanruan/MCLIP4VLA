@@ -141,13 +141,9 @@ def prep_optimizer_clip(args, model, num_train_optimization_steps, device, n_gpu
 
     if hasattr(model, 'module'):
         model = model.module
-    if hasattr(args, 'langs') and args.langs == 'en':
-        param_optimizer = list(model.named_parameters())
-    else:
-        param_optimizer=[]
-        for key, val in list(model.named_parameters()):
-            if 'adapter' in key:
-                param_optimizer.append([key, val])
+    
+    param_optimizer = list(model.named_parameters())
+    
     
     if args.pretrained_clip_name.startswith('ViT'):
         no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
@@ -160,14 +156,14 @@ def prep_optimizer_clip(args, model, num_train_optimization_steps, device, n_gpu
     no_decay_param_tp = [(n, p) for n, p in param_optimizer if any(nd in n for nd in no_decay)]
 
     
-    decay_text_param_tp = [(n, p) for n, p in decay_param_tp if  n.startswith("clip.text_encoder")]
+    decay_text_param_tp = [(n, p) for n, p in decay_param_tp if  n.startswith("multilingualclip.text_encoder")]
     decay_audio_param_tp = [(n, p) for n, p in decay_param_tp if n.startswith("audio.")]
-    decay_visual_param_tp = [(n, p) for n, p in decay_param_tp if (n.startswith("clip.text_encoder") or n.startswith("audio."))==False ]
+    decay_visual_param_tp = [(n, p) for n, p in decay_param_tp if (n.startswith("multilingualclip.text_encoder") or n.startswith("audio."))==False ]
 
-    no_decay_text_param_tp = [(n, p) for n, p in no_decay_param_tp if n.startswith("clip.text_encoder")]
+    no_decay_text_param_tp = [(n, p) for n, p in no_decay_param_tp if n.startswith("multilingualclip.text_encoder")]
     no_decay_audio_param_tp = [(n, p) for n, p in no_decay_param_tp if n.startswith("audio.")]
-    no_decay_visual_param_tp = [(n, p) for n, p in no_decay_param_tp if (n.startswith("clip.text_encoder") or n.startswith("audio."))==False ]
-    
+    no_decay_visual_param_tp = [(n, p) for n, p in no_decay_param_tp if (n.startswith("multilingualclip.text_encoder") or n.startswith("audio."))==False ]
+
 
     weight_decay=0.2
     optimizer_grouped_parameters = [

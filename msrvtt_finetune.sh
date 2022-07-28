@@ -1,11 +1,11 @@
 
-TRAIN_CSV="data/msrvtt/MSRVTT_train.7k.csv"
-VAL_CSV="data/msrvtt/multilingual_test/test_en.json"
-DATA_PATH="data/msrvtt/multilingual_train/ref_captions_all.json"
-AUDIO_PATH="../data/msrvtt/audios_16k"
-VIDEO_PATH="../data/msrvtt_temp/videos"
+TRAIN_CSV="data/msrvtt/annotations/MSRVTT_train.7k.csv"
+VAL_CSV="data/msrvtt/annotations/multilingual_test/test_en.json"
+DATA_PATH="data/msrvtt/annotations/multilingual_train/ref_captions_all.json"
+AUDIO_PATH="data/msrvtt/audios_16k"
+VIDEO_PATH="data/msrvtt/videos"
 OUTPUT_ROOT="ckpts"
-FRAME_PATH="../data/msrvtt_temp/raw_frames"
+FRAME_PATH="data/msrvtt/raw_frames"
 INIT_MODEL="weights/MCLIP4VLA.pt"
 
 
@@ -27,12 +27,11 @@ main_task_video_retrieval.py --do_train  --num_thread_reader=4  \
 --max_audio_length=6   \
 
 
-for i in {0..4}
+
 for language in 'en' 'zh' 'cs' 'de' 'es' 'fr' 'ru' 'sw' 'vi'
 do
-INIT_MODEL="ckpts/ckpt_msrvtt_video_retrieval/pytorch_model.bin.${i}"
+INIT_MODEL="ckpts/ckpt_msrvtt_video_retrieval/pytorch_model.bin.4"
 VAL_CSV="data/msrvtt/annotations/multilingual_test/test_${language}.json"
-DATA_PATH="data/msrvtt/multilingual_train/ref_captions_zh.json"
 CUDA_VISIBLE_DEVICES=0 python -m torch.distributed.launch --nproc_per_node=1 --master_port=25203 \
 main_task_video_retrieval.py --do_eval  --num_thread_reader=4  \
 --epochs=5 --batch_size=128 --n_display=100  \
@@ -51,4 +50,4 @@ main_task_video_retrieval.py --do_eval  --num_thread_reader=4  \
 --loss_func ta_nce \
 --max_audio_length=6   \
 done
-done
+
